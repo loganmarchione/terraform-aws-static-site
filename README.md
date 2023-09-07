@@ -17,7 +17,7 @@ An opinionated Terraform module to create a static site:
 * CloudFront options for IPv6, TLS, HTTP versions, and more
 * Sane defaults for CloudFront HTTP headers
 
-## Caveats
+## Usage
 
 The ACM validation **WILL FAIL** until you point your domain's nameservers to the nameservers provided by Route53. You should do this:
 
@@ -28,7 +28,7 @@ The ACM validation **WILL FAIL** until you point your domain's nameservers to th
 1. Wait 5 minutes
 1. Re-run `terraform apply`
 
-## 
+## Documentation
 
 This documentation was generated automatically with [terraform-docs](https://github.com/terraform-docs/gh-actions)
 
