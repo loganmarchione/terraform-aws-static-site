@@ -6,13 +6,4 @@
 provider "aws" {
   alias  = "us-east-1"
   region = "us-east-1"
-
-  default_tags {
-    tags = merge(
-      var.custom_default_tags,
-      {
-        ManagedBy = "Terraform"
-      }
-    )
-  }
 }

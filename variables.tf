@@ -83,12 +83,6 @@ variable "cloudfront_ssl_minimum_protocol_version" {
   type        = string
 }
 
-variable "custom_default_tags" {
-  default     = {}
-  description = "Custom tags to override the defaults"
-  type        = map(string)
-}
-
 variable "site_name" {
   description = "Name of the site (e.g., example.com)"
   type        = string
