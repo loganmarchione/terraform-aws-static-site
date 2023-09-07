@@ -69,6 +69,9 @@ resource "aws_s3_object" "site" {
 ########################################
 
 # Create a bucket
+# Ignore KICS scan: S3 Bucket Logging Disabled
+# Reason: This bucket is the logging bucket
+# kics-scan ignore-line
 resource "aws_s3_bucket" "logging" {
   bucket = "${var.bucket_name}-logging"
 
