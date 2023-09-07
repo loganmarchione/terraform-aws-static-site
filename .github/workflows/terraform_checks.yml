@@ -62,6 +62,7 @@ jobs:
         with:
           iac_type: 'terraform'
           iac_dir: .
+          config_path: .terrascan.toml
           verbose: true
 
   kics:
