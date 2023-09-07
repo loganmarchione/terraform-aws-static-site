@@ -1,0 +1,5 @@
+---
+exclude:
+  - aws-cloudfront-enable-waf
+  - aws-s3-encryption-customer-key
+minimum_severity: HIGH
