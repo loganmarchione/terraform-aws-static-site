@@ -1,0 +1,99 @@
+---
+name: Terraform Checks
+
+on:
+  push:
+  pull_request:
+  schedule:
+    - cron: "0 5 * * 0"
+  workflow_dispatch:
+
+jobs:
+  terraform_lint:
+    name: Terraform Lint
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out the codebase
+        uses: actions/checkout@v4
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2
+
+      - name: Terraform version
+        run: terraform version
+
+      - name: Terraform fmt
+        run: terraform fmt -check
+
+      - name: Terraform init
+        run: terraform init -backend=false -input=false
+
+      - name: Terraform validate
+        run: terraform validate
+
+      - name: Setup TFLint
+        uses: terraform-linters/setup-tflint@v3
+        with:
+          github_token: ${{ secrets.TOKEN }}
+
+      - name: TFLint version
+        run: tflint --version
+
+      - name: TFLint init
+        run: tflint --init
+
+      - name: TFLint validate
+        run: tflint
+
+  terrascan:
+    name: Terrascan
+
+    needs: terraform_lint
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out the codebase
+        uses: actions/checkout@v4
+
+      - name: Run Terrascan
+        uses: tenable/terrascan-action@main
+        with:
+          iac_type: 'terraform'
+          iac_dir: .
+          config_path: .terrascan.toml
+          non_recursive: true
+          verbose: true
+
+  kics:
+    name: KICS
+
+    needs: terraform_lint
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out the codebase
+        uses: actions/checkout@v4 
+
+      - name: Run KICS
+        uses: Checkmarx/kics-github-action@v1.7.0
+        with:
+           path: .
+           config_path: .kics.yml
+
+  tfsec:
+    name: tfsec
+
+    needs: terraform_lint
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out the codebase
+        uses: actions/checkout@v4 
+
+      - name: tfsec
+        uses: aquasecurity/tfsec-action@v1.0.3
+        with:
+          working_directory: .
+          additional_args: --config-file .tfsec.yml

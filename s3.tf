@@ -59,9 +59,9 @@ resource "aws_s3_object" "site" {
   count        = var.test_page ? 1 : 0
   bucket       = aws_s3_bucket.site.id
   key          = "index.html"
-  source       = "${path.module}/index.html"
+  source       = "${path.module}/files/index.html"
   content_type = "text/html"
-  etag         = filemd5("${path.module}/index.html")
+  etag         = filemd5("${path.module}/files/index.html")
 }
 
 ########################################
@@ -69,6 +69,9 @@ resource "aws_s3_object" "site" {
 ########################################
 
 # Create a bucket
+# Ignore KICS scan: S3 Bucket Logging Disabled
+# Reason: This bucket is the logging bucket
+# kics-scan ignore-line
 resource "aws_s3_bucket" "logging" {
   bucket = "${var.bucket_name}-logging"
 

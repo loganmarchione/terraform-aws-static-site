@@ -1,0 +1,4 @@
+---
+fail-on: high
+# S3 Bucket Without Enabled MFA Delete
+exclude-queries: c5b31ab9-0f26-4a49-b8aa-4cc064392f4d
