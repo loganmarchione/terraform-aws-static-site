@@ -63,6 +63,7 @@ jobs:
           iac_type: 'terraform'
           iac_dir: .
           config_path: .terrascan.toml
+          non_recursive: true
           verbose: true
 
   kics:
