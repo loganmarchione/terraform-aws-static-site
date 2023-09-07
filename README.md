@@ -96,6 +96,7 @@ No modules.
 | <a name="input_cloudfront_ipv6"></a> [cloudfront\_ipv6](#input\_cloudfront\_ipv6) | To enable IPv6 or not | `bool` | `true` | no |
 | <a name="input_cloudfront_price_class"></a> [cloudfront\_price\_class](#input\_cloudfront\_price\_class) | The CloudFront price class | `string` | `"PriceClass_100"` | no |
 | <a name="input_cloudfront_ssl_minimum_protocol_version"></a> [cloudfront\_ssl\_minimum\_protocol\_version](#input\_cloudfront\_ssl\_minimum\_protocol\_version) | The minimum SSL protocol to use | `string` | `"TLSv1.2_2021"` | no |
+| <a name="input_custom_default_tags"></a> [custom\_default\_tags](#input\_custom\_default\_tags) | Custom tags to override the defaults | `map(string)` | `{}` | no |
 | <a name="input_site_name"></a> [site\_name](#input\_site\_name) | Name of the site (e.g., example.com) | `string` | n/a | yes |
 | <a name="input_test_page"></a> [test\_page](#input\_test\_page) | To push a test index.html page to the S3 bucket or not | `bool` | `true` | no |
 
