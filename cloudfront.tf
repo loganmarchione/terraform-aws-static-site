@@ -19,7 +19,6 @@ resource "aws_cloudfront_distribution" "site" {
 
   aliases             = [data.aws_route53_zone.site.name, "www.${data.aws_route53_zone.site.name}"]
   comment             = local.s3_origin_id_site
-  compress            = var.cloudfront_compress
   default_root_object = var.cloudfront_default_root_object != null ? var.cloudfront_default_root_object : null
   enabled             = var.cloudfront_enabled
   http_version        = var.cloudfront_http_version
@@ -29,6 +28,7 @@ resource "aws_cloudfront_distribution" "site" {
   default_cache_behavior {
     allowed_methods  = ["GET", "HEAD"]
     cached_methods   = ["GET", "HEAD"]
+    compress         = var.cloudfront_compress
     target_origin_id = local.s3_origin_id_site
 
     forwarded_values {
