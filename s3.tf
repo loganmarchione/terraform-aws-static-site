@@ -10,9 +10,9 @@
 resource "aws_s3_bucket" "site" {
   bucket = local.bucket_name
 
-  lifecycle {
-    prevent_destroy = true
-  }
+#  lifecycle {
+#    prevent_destroy = true
+#  }
 }
 
 # Set bucket versioning
@@ -76,9 +76,9 @@ resource "aws_s3_object" "site" {
 resource "aws_s3_bucket" "logging" {
   bucket = "${local.bucket_name}-logging"
 
-  lifecycle {
-    prevent_destroy = true
-  }
+#  lifecycle {
+#    prevent_destroy = true
+#  }
 }
 
 # Set bucket versioning
@@ -118,12 +118,12 @@ resource "aws_s3_bucket_ownership_controls" "logging" {
   bucket = aws_s3_bucket.logging.id
 
   rule {
-    # https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/AccessLogs.html#access-logs-choosing-s3-bucket
     object_ownership = "BucketOwnerPreferred"
   }
 }
 
 # Setup bucket ACL
+# Starting in April 2023, you need to to override the best practice and enable ACLs when sending CloudFront logs to S3
 # https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/AccessLogs.html#AccessLogsBucketAndFileOwnership
 resource "aws_s3_bucket_acl" "logging" {
   bucket = aws_s3_bucket.logging.id
