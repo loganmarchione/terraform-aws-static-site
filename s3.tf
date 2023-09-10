@@ -128,6 +128,8 @@ resource "aws_s3_bucket_ownership_controls" "logging" {
 resource "aws_s3_bucket_acl" "logging" {
   bucket = aws_s3_bucket.logging.id
   acl    = "log-delivery-write"
+
+  depends_on = [aws_s3_bucket_ownership_controls.logging]
 }
 
 # Bucket lifecycle
