@@ -11,12 +11,6 @@ resource "aws_cloudfront_origin_access_control" "site" {
 }
 
 resource "aws_cloudfront_distribution" "site" {
-  origin {
-    domain_name              = aws_s3_bucket.site.bucket_regional_domain_name
-    origin_access_control_id = aws_cloudfront_origin_access_control.site.id
-    origin_id                = local.s3_origin_id_site
-  }
-
   aliases             = [data.aws_route53_zone.site.name, "www.${data.aws_route53_zone.site.name}"]
   comment             = local.s3_origin_id_site
   default_root_object = var.cloudfront_default_root_object != null ? var.cloudfront_default_root_object : null
@@ -24,6 +18,16 @@ resource "aws_cloudfront_distribution" "site" {
   http_version        = var.cloudfront_http_version
   is_ipv6_enabled     = var.cloudfront_ipv6
   price_class         = var.cloudfront_price_class
+
+  dynamic "custom_error_response" {
+    for_each = var.cloudfront_custom_error_response
+    content {
+      error_code            = custom_error_response.value.error_code
+      response_code         = custom_error_response.value.response_code
+      error_caching_min_ttl = custom_error_response.value.error_caching_min_ttl
+      response_page_path    = custom_error_response.value.response_page_path
+    }
+  }
 
   default_cache_behavior {
     allowed_methods  = ["GET", "HEAD"]
@@ -39,6 +43,9 @@ resource "aws_cloudfront_distribution" "site" {
     }
 
     response_headers_policy_id = aws_cloudfront_response_headers_policy.site.id
+    min_ttl                    = var.cloudfront_ttl_min
+    default_ttl                = var.cloudfront_ttl_default
+    max_ttl                    = var.cloudfront_ttl_max
     viewer_protocol_policy     = var.cloudfront_viewer_protocol_policy
   }
 
@@ -46,6 +53,12 @@ resource "aws_cloudfront_distribution" "site" {
     include_cookies = false
     bucket          = aws_s3_bucket.logging.bucket_domain_name
     prefix          = "cloudfront_${local.s3_origin_id_site}/"
+  }
+
+  origin {
+    domain_name              = aws_s3_bucket.site.bucket_regional_domain_name
+    origin_access_control_id = aws_cloudfront_origin_access_control.site.id
+    origin_id                = local.s3_origin_id_site
   }
 
   restrictions {

@@ -56,13 +56,33 @@ resource "aws_s3_bucket_logging" "site" {
 }
 
 # Upload a test page (if enabled)
-resource "aws_s3_object" "site" {
-  count        = var.test_page ? 1 : 0
+resource "aws_s3_object" "index" {
+  count        = var.upload_index ? 1 : 0
   bucket       = aws_s3_bucket.site.id
   key          = "index.html"
   source       = "${path.module}/files/index.html"
   content_type = "text/html"
   etag         = filemd5("${path.module}/files/index.html")
+}
+
+# Upload a robots.txt file (if enabled)
+resource "aws_s3_object" "robots" {
+  count        = var.upload_robots ? 1 : 0
+  bucket       = aws_s3_bucket.site.id
+  key          = "robots.txt"
+  source       = "${path.module}/files/robots.txt"
+  content_type = "text/plain"
+  etag         = filemd5("${path.module}/files/robots.txt")
+}
+
+# Upload a 404 file (if enabled)
+resource "aws_s3_object" "404" {
+  count        = var.upload_404 ? 1 : 0
+  bucket       = aws_s3_bucket.site.id
+  key          = "404.html"
+  source       = "${path.module}/files/404.html"
+  content_type = "text/html"
+  etag         = filemd5("${path.module}/files/404.html")
 }
 
 ########################################

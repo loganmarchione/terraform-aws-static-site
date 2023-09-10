@@ -16,6 +16,24 @@ variable "cloudfront_compress" {
   type        = bool
 }
 
+variable "cloudfront_custom_error_responses" {
+  default = [
+    {
+      error_code            = 404
+      response_code         = 404
+      error_caching_min_ttl = 60
+      response_page_path    = "/404.html"
+    }
+  ]
+  description = "The [CloudFront custom error responses](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/GeneratingCustomErrorResponses.html)"
+  type = list(object({
+    error_code            = number
+    response_code         = number
+    error_caching_min_ttl = number
+    response_page_path    = string
+  }))
+}
+
 variable "cloudfront_default_root_object" {
   default     = null
   description = "The [CloudFront default root object](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/DefaultRootObject.html) to display (this is `null` by default, so nothing will display at `https://domain.com` unless you set something here)"
@@ -57,6 +75,24 @@ variable "cloudfront_ssl_minimum_protocol_version" {
   type        = string
 }
 
+variable "cloudfront_ttl_min" {
+  default     = 3600
+  description = "The [CloudFront minimum cache time](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/Expiration.html) (seconds)"
+  type        = number
+}
+
+variable "cloudfront_ttl_default" {
+  default     = 86400
+  description = "The [CloudFront default cache time](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/Expiration.html) (seconds)"
+  type        = number
+}
+
+variable "cloudfront_ttl_max" {
+  default     = 31536000
+  description = "The [CloudFront maximum cache time](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/Expiration.html) (seconds)"
+  type        = number
+}
+
 variable "cloudfront_viewer_protocol_policy" {
   default     = "redirect-to-https"
   description = "The [CloudFront viewer protocol policy](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/using-https-viewers-to-cloudfront.html) to enforce (e.g., redirect HTTP to HTTPS)"
@@ -73,8 +109,20 @@ variable "domain_name" {
   type        = string
 }
 
-variable "test_page" {
+variable "upload_index" {
   default     = true
-  description = "To push a test index.html page to the S3 bucket or not"
+  description = "To push a test `index.html` page or not"
+  type        = bool
+}
+
+variable "upload_robots" {
+  default     = false
+  description = "To push a restrictive `robots.txt` file (useful if you don't want a site to be indexed) or not"
+  type        = bool
+}
+
+variable "upload_404" {
+  default     = false
+  description = "To push a `404.html` page (useful if you want to test your custom error responses) or not"
   type        = bool
 }

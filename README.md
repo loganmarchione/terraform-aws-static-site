@@ -57,7 +57,7 @@ module "static_site_domain_com" {
     aws.us-east-1 = aws.us-east-1
   }
 
-  # The domain name of the site (should be the same as the Route53 hosted zone (e.g., example.com)
+  # The domain name of the site (**MUST** match the Route53 hosted zone name (e.g., `domain.com`)
   domain_name   = "domain.com"
 
   # Since this is a static site, we probably don't need versioning, since our source files are stored in git
