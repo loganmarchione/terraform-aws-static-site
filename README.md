@@ -135,7 +135,9 @@ No modules.
 | [aws_s3_bucket_server_side_encryption_configuration.site](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_server_side_encryption_configuration) | resource |
 | [aws_s3_bucket_versioning.logging](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_versioning) | resource |
 | [aws_s3_bucket_versioning.site](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_versioning) | resource |
-| [aws_s3_object.site](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_object) | resource |
+| [aws_s3_object._404](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_object) | resource |
+| [aws_s3_object.index](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_object) | resource |
+| [aws_s3_object.robots](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_object) | resource |
 | [aws_route53_zone.site](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/route53_zone) | data source |
 
 ## Inputs
@@ -145,15 +147,21 @@ No modules.
 | <a name="input_bucket_versioning_logs"></a> [bucket\_versioning\_logs](#input\_bucket\_versioning\_logs) | State of bucket versioning for logs bucket | `bool` | `false` | no |
 | <a name="input_bucket_versioning_site"></a> [bucket\_versioning\_site](#input\_bucket\_versioning\_site) | State of bucket versioning for site bucket | `bool` | `false` | no |
 | <a name="input_cloudfront_compress"></a> [cloudfront\_compress](#input\_cloudfront\_compress) | To enable [CloudFront compression](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/ServingCompressedFiles.html) or not | `bool` | `true` | no |
+| <a name="input_cloudfront_custom_error_responses"></a> [cloudfront\_custom\_error\_responses](#input\_cloudfront\_custom\_error\_responses) | The [CloudFront custom error responses](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/GeneratingCustomErrorResponses.html) | <pre>list(object({<br>    error_code            = number<br>    response_code         = number<br>    error_caching_min_ttl = number<br>    response_page_path    = string<br>  }))</pre> | <pre>[<br>  {<br>    "error_caching_min_ttl": 60,<br>    "error_code": 404,<br>    "response_code": 404,<br>    "response_page_path": "/404.html"<br>  }<br>]</pre> | no |
 | <a name="input_cloudfront_default_root_object"></a> [cloudfront\_default\_root\_object](#input\_cloudfront\_default\_root\_object) | The [CloudFront default root object](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/DefaultRootObject.html) to display (this is `null` by default, so nothing will display at `https://domain.com` unless you set something here) | `string` | `null` | no |
 | <a name="input_cloudfront_enabled"></a> [cloudfront\_enabled](#input\_cloudfront\_enabled) | To enable CloudFront or not | `bool` | `true` | no |
 | <a name="input_cloudfront_http_version"></a> [cloudfront\_http\_version](#input\_cloudfront\_http\_version) | The CloudFront HTTP version | `string` | `"http2"` | no |
 | <a name="input_cloudfront_ipv6"></a> [cloudfront\_ipv6](#input\_cloudfront\_ipv6) | To enable CloudFront IPv6 or not (also controls [creation of two AAAA Route53 records](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/routing-to-cloudfront-distribution.html)) | `bool` | `true` | no |
 | <a name="input_cloudfront_price_class"></a> [cloudfront\_price\_class](#input\_cloudfront\_price\_class) | The [CloudFront price class](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/PriceClass.html) | `string` | `"PriceClass_100"` | no |
 | <a name="input_cloudfront_ssl_minimum_protocol_version"></a> [cloudfront\_ssl\_minimum\_protocol\_version](#input\_cloudfront\_ssl\_minimum\_protocol\_version) | The [CloudFront minimum SSL protocol](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/secure-connections-supported-viewer-protocols-ciphers.html) to use | `string` | `"TLSv1.2_2021"` | no |
+| <a name="input_cloudfront_ttl_default"></a> [cloudfront\_ttl\_default](#input\_cloudfront\_ttl\_default) | The [CloudFront default cache time](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/Expiration.html) (seconds) | `number` | `86400` | no |
+| <a name="input_cloudfront_ttl_max"></a> [cloudfront\_ttl\_max](#input\_cloudfront\_ttl\_max) | The [CloudFront maximum cache time](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/Expiration.html) (seconds) | `number` | `31536000` | no |
+| <a name="input_cloudfront_ttl_min"></a> [cloudfront\_ttl\_min](#input\_cloudfront\_ttl\_min) | The [CloudFront minimum cache time](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/Expiration.html) (seconds) | `number` | `3600` | no |
 | <a name="input_cloudfront_viewer_protocol_policy"></a> [cloudfront\_viewer\_protocol\_policy](#input\_cloudfront\_viewer\_protocol\_policy) | The [CloudFront viewer protocol policy](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/using-https-viewers-to-cloudfront.html) to enforce (e.g., redirect HTTP to HTTPS) | `string` | `"redirect-to-https"` | no |
 | <a name="input_domain_name"></a> [domain\_name](#input\_domain\_name) | Domain name of the site and **MUST** match the Route53 hosted zone name (e.g., `domain.com`) | `string` | n/a | yes |
-| <a name="input_test_page"></a> [test\_page](#input\_test\_page) | To push a test index.html page to the S3 bucket or not | `bool` | `true` | no |
+| <a name="input_upload_404"></a> [upload\_404](#input\_upload\_404) | To push a `404.html` page (useful if you want to test your custom error responses) or not | `bool` | `false` | no |
+| <a name="input_upload_index"></a> [upload\_index](#input\_upload\_index) | To push a test `index.html` page or not | `bool` | `true` | no |
+| <a name="input_upload_robots"></a> [upload\_robots](#input\_upload\_robots) | To push a restrictive `robots.txt` file (useful if you don't want a site to be indexed) or not | `bool` | `false` | no |
 
 ## Outputs
 
