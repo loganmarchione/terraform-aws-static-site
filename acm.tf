@@ -43,3 +43,14 @@ resource "aws_acm_certificate_validation" "site" {
     create = "5m"
   }
 }
+
+resource "aws_route53_record" "site_caa" {
+  zone_id = aws_route53_zone.site.zone_id
+  name    = ""
+  type    = "CAA"
+  ttl     = "3600"
+  records = [
+    "0 issue \"amazon.com\"",
+    "0 issuewild \"amazon.com\""
+  ]
+}
