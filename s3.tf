@@ -10,9 +10,9 @@
 resource "aws_s3_bucket" "site" {
   bucket = local.bucket_name
 
-#  lifecycle {
-#    prevent_destroy = true
-#  }
+  #  lifecycle {
+  #    prevent_destroy = true
+  #  }
 }
 
 # Set bucket versioning
@@ -76,9 +76,9 @@ resource "aws_s3_object" "site" {
 resource "aws_s3_bucket" "logging" {
   bucket = "${local.bucket_name}-logging"
 
-#  lifecycle {
-#    prevent_destroy = true
-#  }
+  #  lifecycle {
+  #    prevent_destroy = true
+  #  }
 }
 
 # Set bucket versioning
@@ -112,7 +112,6 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "logging" {
 }
 
 # Set ownership controls
-# https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_ownership_controls#rule-configuration-block
 # https://docs.aws.amazon.com/AmazonS3/latest/userguide/about-object-ownership.html
 resource "aws_s3_bucket_ownership_controls" "logging" {
   bucket = aws_s3_bucket.logging.id
@@ -122,7 +121,6 @@ resource "aws_s3_bucket_ownership_controls" "logging" {
   }
 }
 
-# Setup bucket ACL
 # Starting in April 2023, you need to to override the best practice and enable ACLs when sending CloudFront logs to S3
 # https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/AccessLogs.html#AccessLogsBucketAndFileOwnership
 resource "aws_s3_bucket_acl" "logging" {

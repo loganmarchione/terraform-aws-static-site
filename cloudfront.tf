@@ -19,6 +19,7 @@ resource "aws_cloudfront_distribution" "site" {
 
   aliases             = [data.aws_route53_zone.site.name, "www.${data.aws_route53_zone.site.name}"]
   comment             = local.s3_origin_id_site
+  compress            = var.cloudfront_compress
   default_root_object = var.cloudfront_default_root_object != null ? var.cloudfront_default_root_object : null
   enabled             = var.cloudfront_enabled
   http_version        = var.cloudfront_http_version
@@ -38,7 +39,7 @@ resource "aws_cloudfront_distribution" "site" {
     }
 
     response_headers_policy_id = aws_cloudfront_response_headers_policy.site.id
-    viewer_protocol_policy     = "redirect-to-https"
+    viewer_protocol_policy     = var.cloudfront_viewer_protocol_policy
   }
 
   logging_config {

@@ -19,7 +19,7 @@ An opinionated Terraform module to create a static site:
 
 ## Requirements
 
-* You **MUST** already have a Route53 hosted zone and accompanying NS records created (the module does **NOT** do this for you) because ACM uses DNS for certficate validation. Below is an example of how to do this with Terraform.
+* You **MUST** already have a Route53 hosted zone and accompanying NS records created (this module does **NOT** do this for you) because ACM uses DNS for certficate validation. Below is an example of how to do this with Terraform.
 
 ```
 resource "aws_route53_zone" "mydomain_com" {
