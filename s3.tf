@@ -4,13 +4,13 @@
 
 # Get the hosted zone for the domain name
 data "aws_route53_zone" "hosted_zone" {
-  name         = locals.domain_name
+  name         = local.domain_name
   private_zone = false
 }
 
 # Replace dots in the domain name with dashes for the bucket name
 locals {
-  bucket_name = lower(replace(locals.domain_name, ".", "-"))
+  bucket_name = lower(replace(local.domain_name, ".", "-"))
 }
 
 ########################################
@@ -19,7 +19,7 @@ locals {
 
 # Create a bucket
 resource "aws_s3_bucket" "site" {
-  bucket = var.bucket_name
+  bucket = local.bucket_name
 
   lifecycle {
     prevent_destroy = true
@@ -84,7 +84,7 @@ resource "aws_s3_object" "site" {
 # Reason: This bucket is the logging bucket
 # kics-scan ignore-line
 resource "aws_s3_bucket" "logging" {
-  bucket = "${var.bucket_name}-logging"
+  bucket = "${local.bucket_name}-logging"
 
   lifecycle {
     prevent_destroy = true

@@ -31,6 +31,8 @@ resource "aws_route53_record" "site_validation" {
   type            = each.value.type
   ttl             = 60
   records         = [each.value.record]
+
+  depends_on = [aws_acm_certificate.site]
 }
 
 resource "aws_acm_certificate_validation" "site" {
@@ -42,6 +44,8 @@ resource "aws_acm_certificate_validation" "site" {
   timeouts {
     create = "5m"
   }
+
+  depends_on = [aws_route53_record.site_validation]
 }
 
 resource "aws_route53_record" "site_caa" {

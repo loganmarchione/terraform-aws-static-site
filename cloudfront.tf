@@ -3,15 +3,11 @@
 ################################################################################
 
 resource "aws_cloudfront_origin_access_control" "site" {
-  name                              = locals.domain_name
-  description                       = locals.domain_name
+  name                              = local.domain_name
+  description                       = local.domain_name
   origin_access_control_origin_type = "s3"
   signing_behavior                  = "always"
   signing_protocol                  = "sigv4"
-}
-
-locals {
-  s3_origin_id_site = var.bucket_name
 }
 
 resource "aws_cloudfront_distribution" "site" {
@@ -22,7 +18,7 @@ resource "aws_cloudfront_distribution" "site" {
   }
 
   aliases             = [aws_route53_zone.site.name, "www.${aws_route53_zone.site.name}"]
-  comment             = local.s3_origin_id_site
+  comment             = local.bucket_name
   default_root_object = var.cloudfront_default_root_object != null ? var.cloudfront_default_root_object : null
   enabled             = var.cloudfront_enabled
   http_version        = var.cloudfront_http_version
@@ -62,10 +58,15 @@ resource "aws_cloudfront_distribution" "site" {
     ssl_support_method       = "sni-only"
     minimum_protocol_version = var.cloudfront_ssl_minimum_protocol_version
   }
+
+  depends_on = [
+    aws_acm_certificate.site,
+    aws_acm_certificate_validation.site
+  ]
 }
 
 resource "aws_cloudfront_response_headers_policy" "site" {
-  name    = var.bucket_name
+  name    = local.bucket_name
   comment = "Sane defaults"
   security_headers_config {
     content_type_options {
@@ -94,7 +95,6 @@ resource "aws_cloudfront_response_headers_policy" "site" {
       override   = true
       protection = true
     }
-
   }
 }
 
