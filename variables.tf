@@ -1,24 +1,14 @@
 variable "bucket_versioning_logs" {
-  default     = "Disabled"
+  default     = false
   description = "State of bucket versioning"
-  type        = string
-
-  # https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_versioning#status
-  validation {
-    condition     = contains(["Enabled", "Suspended", "Disabled"], var.bucket_versioning_logs)
-    error_message = "Variable must be 'Enabled', 'Suspended', or 'Disabled'."
+  type        = bool
   }
 }
 
 variable "bucket_versioning_site" {
-  default     = "Disabled"
+  default     = false
   description = "State of bucket versioning"
-  type        = string
-
-  # https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_versioning#status
-  validation {
-    condition     = contains(["Enabled", "Suspended", "Disabled"], var.bucket_versioning_site)
-    error_message = "Variable must be 'Enabled', 'Suspended', or 'Disabled'."
+  type        = bool
   }
 }
 

@@ -28,10 +28,11 @@ resource "aws_s3_bucket" "site" {
 
 # Set bucket versioning
 resource "aws_s3_bucket_versioning" "site" {
+  count  = var.bucket_versioning_site == true ? 1 : 0
   bucket = aws_s3_bucket.site.id
 
   versioning_configuration {
-    status = var.bucket_versioning_site
+    status = "Enabled"
   }
 }
 
@@ -93,10 +94,11 @@ resource "aws_s3_bucket" "logging" {
 
 # Set bucket versioning
 resource "aws_s3_bucket_versioning" "logging" {
+  count  = var.bucket_versioning_logs == true ? 1 : 0
   bucket = aws_s3_bucket.logging.id
 
   versioning_configuration {
-    status = var.bucket_versioning_logs
+    status = "Enabled"
   }
 }
 
