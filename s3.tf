@@ -76,7 +76,7 @@ resource "aws_s3_object" "robots" {
 }
 
 # Upload a 404 file (if enabled)
-resource "aws_s3_object" "404" {
+resource "aws_s3_object" "_404" {
   count        = var.upload_404 ? 1 : 0
   bucket       = aws_s3_bucket.site.id
   key          = "404.html"
