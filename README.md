@@ -72,10 +72,15 @@ module "static_site_domain_com" {
   cloudfront_ipv6                         = true
   cloudfront_price_class                  = "PriceClass_100"
   cloudfront_ssl_minimum_protocol_version = "TLSv1.2_2021"
+  cloudfront_ttl_min                      = 3600
+  cloudfront_ttl_default                  = 86400
+  cloudfront_ttl_max                      = 31536000
   cloudfront_viewer_protocol_policy       = "redirect-to-https"
 
-  # Upload a test page
-  test_page = true
+  # Upload default files
+  upload_index  = true
+  upload_robots = true
+  upload_404    = true
 }
 ```
 
