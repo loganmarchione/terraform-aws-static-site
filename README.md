@@ -17,6 +17,26 @@ An opinionated Terraform module to create a static site:
 * CloudFront options for IPv6, TLS, HTTP versions, and more
 * Sane defaults for CloudFront HTTP headers
 
+## Requirements
+
+* You **MUST** already have a Route53 hosted zone and accompanying NS records created (the module does **NOT** do this for you) because ACM uses DNS for certficate validation. Below is an example of how to do this with Terraform.
+
+```
+resource "aws_route53_zone" "mydomain_com" {
+  name = "domain.com"
+}
+
+resource "aws_route53_record" "mydomain_com_nameservers" {
+  zone_id         = aws_route53_zone.mydomain_com.zone_id
+  name            = aws_route53_zone.mydomain_com.name
+  type            = "NS"
+  ttl             = "3600"
+  allow_overwrite = true
+  records         = aws_route53_zone.mydomain_com.name_servers
+}
+```
+* The `domain_name` input into the module **MUST** match the Route53 hosted zone name (e.g., `domain.com`).
+
 ## Usage
 
 The ACM validation **WILL FAIL** until you point your domain's nameservers to the nameservers provided by Route53. You should do this:
