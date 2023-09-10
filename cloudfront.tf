@@ -3,8 +3,8 @@
 ################################################################################
 
 resource "aws_cloudfront_origin_access_control" "site" {
-  name                              = var.site_name
-  description                       = var.site_name
+  name                              = locals.domain_name
+  description                       = locals.domain_name
   origin_access_control_origin_type = "s3"
   signing_behavior                  = "always"
   signing_protocol                  = "sigv4"

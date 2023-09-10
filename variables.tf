@@ -83,8 +83,8 @@ variable "cloudfront_ssl_minimum_protocol_version" {
   type        = string
 }
 
-variable "site_name" {
-  description = "Name of the site (e.g., example.com)"
+variable "domain_name" {
+  description = "Domain name of the site and should be the same as the Route53 hosted zone (e.g., example.com)"
   type        = string
 }
 

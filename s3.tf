@@ -2,6 +2,17 @@
 ### S3
 ################################################################################
 
+# Get the hosted zone for the domain name
+data "aws_route53_zone" "hosted_zone" {
+  name         = locals.domain_name
+  private_zone = false
+}
+
+# Replace dots in the domain name with dashes for the bucket name
+locals {
+  bucket_name = lower(replace(locals.domain_name, ".", "-"))
+}
+
 ########################################
 ### Site bucket
 ########################################

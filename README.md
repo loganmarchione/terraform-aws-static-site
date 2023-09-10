@@ -10,9 +10,9 @@ An opinionated Terraform module to create a static site:
 * S3 buckets are private
 * Logs move to Standard IA after 30 days and are expired after 365
 * Site files (e.g., HTML, CSS, etc...) can only be accessed through CloudFront (i.e., no direct access to files in S3)
-* Creates an ACM certificate for `site_name.tld` and `*.site_name.tld` (i.e., for subdomains like `www.site_name.tld`)
+* Creates an ACM certificate for `domain_name.tld` and `*.domain_name.tld` (i.e., for subdomains like `www.domain_name.tld`)
 * Validates the ACM certificate using Route53 DNS
-* Creates A and AAAA records for `site_name.tld` and `www.site_name.tld`
+* Creates A and AAAA records for `domain_name.tld` and `www.domain_name.tld`
 * CloudFront distribution using Origin Access Control to S3
 * CloudFront options for IPv6, TLS, HTTP versions, and more
 * Sane defaults for CloudFront HTTP headers
@@ -65,7 +65,7 @@ No modules.
 | [aws_route53_record.site_aaaa](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route53_record) | resource |
 | [aws_route53_record.site_aaaa_www](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route53_record) | resource |
 | [aws_route53_record.site_caa](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route53_record) | resource |
-| [aws_route53_record.site_nameservers](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route53_record) | resource |
+| [aws_route53_record.domain_nameservers](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route53_record) | resource |
 | [aws_route53_record.site_validation](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route53_record) | resource |
 | [aws_route53_zone.site](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route53_zone) | resource |
 | [aws_s3_bucket.logging](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket) | resource |
@@ -97,7 +97,7 @@ No modules.
 | <a name="input_cloudfront_price_class"></a> [cloudfront\_price\_class](#input\_cloudfront\_price\_class) | The CloudFront price class | `string` | `"PriceClass_100"` | no |
 | <a name="input_cloudfront_ssl_minimum_protocol_version"></a> [cloudfront\_ssl\_minimum\_protocol\_version](#input\_cloudfront\_ssl\_minimum\_protocol\_version) | The minimum SSL protocol to use | `string` | `"TLSv1.2_2021"` | no |
 | <a name="input_custom_default_tags"></a> [custom\_default\_tags](#input\_custom\_default\_tags) | Custom tags to override the defaults | `map(string)` | `{}` | no |
-| <a name="input_site_name"></a> [site\_name](#input\_site\_name) | Name of the site (e.g., example.com) | `string` | n/a | yes |
+| <a name="input_domain_name"></a> [site\_name](#input\_site\_name) | Name of the site (e.g., example.com) | `string` | n/a | yes |
 | <a name="input_test_page"></a> [test\_page](#input\_test\_page) | To push a test index.html page to the S3 bucket or not | `bool` | `true` | no |
 
 ## Outputs

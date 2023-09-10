@@ -26,7 +26,7 @@ resource "aws_route53_record" "site_validation" {
   }
 
   allow_overwrite = true
-  zone_id         = aws_route53_zone.site.zone_id
+  zone_id         = data.aws_route53_zone.site.zone_id
   name            = each.value.name
   type            = each.value.type
   ttl             = 60
@@ -45,7 +45,7 @@ resource "aws_acm_certificate_validation" "site" {
 }
 
 resource "aws_route53_record" "site_caa" {
-  zone_id = aws_route53_zone.site.zone_id
+  zone_id = data.aws_route53_zone.site.zone_id
   name    = ""
   type    = "CAA"
   ttl     = "3600"
