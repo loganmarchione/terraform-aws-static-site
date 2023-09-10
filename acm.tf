@@ -5,10 +5,10 @@
 resource "aws_acm_certificate" "site" {
   # Needed because CloudFront can only use ACM certs generated in us-east-1
   provider          = aws.us-east-1
-  domain_name       = aws_route53_zone.site.name
+  domain_name       = data.aws_route53_zone.site.name
   validation_method = "DNS"
   subject_alternative_names = [
-    "*.${aws_route53_zone.site.name}"
+    "*.${data.aws_route53_zone.site.name}"
   ]
 
   lifecycle {

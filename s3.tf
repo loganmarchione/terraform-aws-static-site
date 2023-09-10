@@ -4,13 +4,13 @@
 
 # Get the hosted zone for the domain name
 data "aws_route53_zone" "hosted_zone" {
-  name         = local.domain_name
+  name         = var.domain_name
   private_zone = false
 }
 
 # Replace dots in the domain name with dashes for the bucket name
 locals {
-  bucket_name = lower(replace(local.domain_name, ".", "-"))
+  bucket_name = lower(replace(var.domain_name, ".", "-"))
 }
 
 ########################################

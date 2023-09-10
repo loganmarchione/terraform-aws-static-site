@@ -3,8 +3,8 @@
 ################################################################################
 
 resource "aws_cloudfront_origin_access_control" "site" {
-  name                              = local.domain_name
-  description                       = local.domain_name
+  name                              = var.domain_name
+  description                       = var.domain_name
   origin_access_control_origin_type = "s3"
   signing_behavior                  = "always"
   signing_protocol                  = "sigv4"
@@ -17,7 +17,7 @@ resource "aws_cloudfront_distribution" "site" {
     origin_id                = local.s3_origin_id_site
   }
 
-  aliases             = [aws_route53_zone.site.name, "www.${aws_route53_zone.site.name}"]
+  aliases             = [data.aws_route53_zone.site.name, "www.${data.aws_route53_zone.site.name}"]
   comment             = local.bucket_name
   default_root_object = var.cloudfront_default_root_object != null ? var.cloudfront_default_root_object : null
   enabled             = var.cloudfront_enabled
@@ -28,7 +28,7 @@ resource "aws_cloudfront_distribution" "site" {
   default_cache_behavior {
     allowed_methods  = ["GET", "HEAD"]
     cached_methods   = ["GET", "HEAD"]
-    target_origin_id = local.s3_origin_id_site
+    target_origin_id = local.bucket_name
 
     forwarded_values {
       query_string = false
@@ -144,7 +144,7 @@ resource "aws_s3_bucket_policy" "site" {
 ########################################
 
 resource "aws_route53_record" "site_a" {
-  zone_id = aws_route53_zone.site.zone_id
+  zone_id = data.aws_route53_zone.site.zone_id
   name    = ""
   type    = "A"
 
@@ -157,7 +157,7 @@ resource "aws_route53_record" "site_a" {
 
 resource "aws_route53_record" "site_aaaa" {
   count   = var.cloudfront_ipv6 ? 1 : 0
-  zone_id = aws_route53_zone.site.zone_id
+  zone_id = data.aws_route53_zone.site.zone_id
   name    = ""
   type    = "AAAA"
 
@@ -169,7 +169,7 @@ resource "aws_route53_record" "site_aaaa" {
 }
 
 resource "aws_route53_record" "site_a_www" {
-  zone_id = aws_route53_zone.site.zone_id
+  zone_id = data.aws_route53_zone.site.zone_id
   name    = "www"
   type    = "A"
 
@@ -182,7 +182,7 @@ resource "aws_route53_record" "site_a_www" {
 
 resource "aws_route53_record" "site_aaaa_www" {
   count   = var.cloudfront_ipv6 ? 1 : 0
-  zone_id = aws_route53_zone.site.zone_id
+  zone_id = data.aws_route53_zone.site.zone_id
   name    = "www"
   type    = "AAAA"
 
