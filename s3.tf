@@ -3,7 +3,7 @@
 ################################################################################
 
 # Get the hosted zone for the domain name
-data "aws_route53_zone" "hosted_zone" {
+data "aws_route53_zone" "site" {
   name         = var.domain_name
   private_zone = false
 }
