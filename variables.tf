@@ -2,14 +2,12 @@ variable "bucket_versioning_logs" {
   default     = false
   description = "State of bucket versioning"
   type        = bool
-  }
 }
 
 variable "bucket_versioning_site" {
   default     = false
   description = "State of bucket versioning"
   type        = bool
-  }
 }
 
 variable "cloudfront_default_root_object" {
