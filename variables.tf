@@ -18,7 +18,7 @@ variable "cloudfront_compress" {
 
 variable "cloudfront_default_root_object" {
   default     = null
-  description = "The [CloudFront default root object](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/DefaultRootObject.html) to display"
+  description = "The [CloudFront default root object](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/DefaultRootObject.html) to display (this is `null` by default, so nothing will display at `https://domain.com` unless you set something here)"
   type        = string
 }
 
@@ -69,7 +69,7 @@ variable "cloudfront_viewer_protocol_policy" {
 }
 
 variable "domain_name" {
-  description = "Domain name of the site and should be the same as the Route53 hosted zone (e.g., example.com)"
+  description = "Domain name of the site and **MUST** match the Route53 hosted zone name (e.g., `domain.com`)"
   type        = string
 }
 

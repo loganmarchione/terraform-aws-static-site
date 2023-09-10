@@ -30,8 +30,9 @@ jobs:
       - name: Terraform init
         run: terraform init -backend=false -input=false
 
-      - name: Terraform validate
-        run: terraform validate
+#     Commenting this out because of this issue https://github.com/hashicorp/terraform/issues/28490
+#     - name: Terraform validate
+#       run: terraform validate
 
       - name: Setup TFLint
         uses: terraform-linters/setup-tflint@v3

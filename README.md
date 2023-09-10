@@ -20,7 +20,6 @@ An opinionated Terraform module to create a static site:
 ## Requirements
 
 * You **MUST** already have a Route53 hosted zone and accompanying NS records created (this module does **NOT** do this for you) because ACM uses DNS for certficate validation. Below is an example of how to do this with Terraform.
-
 ```
 resource "aws_route53_zone" "mydomain_com" {
   name = "domain.com"
@@ -36,19 +35,51 @@ resource "aws_route53_record" "mydomain_com_nameservers" {
 }
 ```
 * The `domain_name` input into the module **MUST** match the Route53 hosted zone name (e.g., `domain.com`).
+* CloudFront can only use [ACM certs generated in `us-east-1`](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cnames-and-https-requirements.html#https-requirements-aws-region). Some people (i.e., me) don't want their resources in `us-east-1`, except the ACM certificate and validation. Because of this, I had to add an extra `provider` configuration of `aws.us-east-1` to those two resources. You **NEED** to add this extra provider to your root module and again when calling the module itself (below is an example).
+```
+# Default
+provider "aws" {
+  region                   = "us-east-2"
+  shared_credentials_files = ["~/.aws/credentials"]
+}
+
+# Needed because CloudFront can only use ACM certs generated in us-east-1
+provider "aws" {
+  alias                    = "us-east-1"
+  region                   = "us-east-1"
+  shared_credentials_files = ["~/.aws/credentials"]
+}
+
+module "static_site_domain_com" {
+  source = "github.com/loganmarchione/terraform-aws-static-site"
+
+  providers = {
+    aws.us-east-1 = aws.us-east-1
+  }
+
+  # The domain name of the site (should be the same as the Route53 hosted zone (e.g., example.com)
+  domain_name   = "domain.com"
+
+  # Since this is a static site, we probably don't need versioning, since our source files are stored in git
+  bucket_versioning_logs = false
+  bucket_versioning_site = false
+
+  # CloudFront settings
+  cloudfront_compress                     = true
+  cloudfront_default_root_object          = "index.html"
+  cloudfront_enabled                      = true
+  cloudfront_http_version                 = "http2and3"
+  cloudfront_ipv6                         = true
+  cloudfront_price_class                  = "PriceClass_100"
+  cloudfront_ssl_minimum_protocol_version = "TLSv1.2_2021"
+  cloudfront_viewer_protocol_policy       = "redirect-to-https"
+
+  # Upload a test page
+  test_page = true
+}
+```
 
 ## Usage
-
-The ACM validation **WILL FAIL** until you point your domain's nameservers to the nameservers provided by Route53. You should do this:
-
-1. Run `terraform apply`
-1. Wait for ACM validation to timeout (the default is 5min in Terraform)
-1. Go into Route53 and find the four nameservers
-1. Add the Route53 nameservers to your domain's control panel
-1. Wait 5 minutes
-1. Re-run `terraform apply`
-
-## Documentation
 
 This documentation was generated automatically with [terraform-docs](https://github.com/terraform-docs/gh-actions)
 
