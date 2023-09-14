@@ -109,6 +109,12 @@ variable "domain_name" {
   type        = string
 }
 
+variable "iam_policy_site_updating" {
+  default     = false
+  description = "Optional IAM policy that provides permissions needed to update a static site (e.g., create CloudFront cache invalidation, update objects in S3, etc...)"
+  type        = bool
+}
+
 variable "upload_index" {
   default     = true
   description = "To push a test `index.html` page or not"

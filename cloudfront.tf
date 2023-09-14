@@ -149,6 +149,46 @@ resource "aws_s3_bucket_policy" "site" {
   })
 }
 
+# Allow bucket updating and cache invalidation
+resource "aws_iam_policy" "site_updating" {
+  count       = var.iam_policy_site_updating ? 1 : 0
+  name        = "SiteUpdating"
+  path        = "/"
+  description = "Optional IAM policy that provides permissions needed to update a static site (e.g., create CloudFront cache invalidation, update objects in S3, etc...)"
+
+  policy = jsonencode({
+    "Version" : "2012-10-17",
+    "Id" : "SiteUpdating",
+    "Statement" : [
+      {
+        "Sid" : "S3",
+        "Effect" : "Allow",
+        "Action" : [
+          "s3:GetBucketPolicy",
+          "s3:PutBucketPolicy",
+          "s3:ListBucket",
+          "s3:PutObject",
+          "s3:DeleteObject",
+        ],
+        "Resource" : [
+          "${aws_s3_bucket.site.arn}",
+          "${aws_s3_bucket.site.arn}/*"
+        ]
+      },
+      {
+        "Sid" : "CloudFront",
+        "Effect" : "Allow",
+        "Action" : [
+          "cloudfront:CreateInvalidation",
+          "cloudfront:GetInvalidation",
+          "cloudfront:ListInvalidations"
+        ],
+        "Resource" : "${aws_cloudfront_distribution.site.arn}"
+      }
+    ]
+  })
+}
+
 ################################################################################
 ### DNS
 ################################################################################

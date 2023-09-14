@@ -77,6 +77,9 @@ module "static_site_domain_com" {
   cloudfront_ttl_max                      = 31536000
   cloudfront_viewer_protocol_policy       = "redirect-to-https"
 
+  # IAM
+  iam_policy_site_updating                = true
+
   # Upload default files
   upload_index  = true
   upload_robots = true
