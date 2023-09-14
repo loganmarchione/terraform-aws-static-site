@@ -51,7 +51,7 @@ provider "aws" {
 }
 
 module "static_site_domain_com" {
-  source = "github.com/loganmarchione/terraform-aws-static-site"
+  source = "github.com/loganmarchione/terraform-aws-static-site?ref=x.y.z"
 
   providers = {
     aws.us-east-1 = aws.us-east-1
