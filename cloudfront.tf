@@ -171,7 +171,7 @@ resource "aws_iam_policy" "site_updating" {
           "s3:DeleteObject",
         ],
         "Resource" : [
-          "${aws_s3_bucket.site.arn}",
+          aws_s3_bucket.site.arn,
           "${aws_s3_bucket.site.arn}/*"
         ]
       },
@@ -183,7 +183,7 @@ resource "aws_iam_policy" "site_updating" {
           "cloudfront:GetInvalidation",
           "cloudfront:ListInvalidations"
         ],
-        "Resource" : "${aws_cloudfront_distribution.site.arn}"
+        "Resource" : aws_cloudfront_distribution.site.arn
       }
     ]
   })

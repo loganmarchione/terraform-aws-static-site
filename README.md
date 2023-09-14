@@ -78,7 +78,7 @@ module "static_site_domain_com" {
   cloudfront_viewer_protocol_policy       = "redirect-to-https"
 
   # IAM
-  iam_policy_site_updating                = true
+  iam_policy_site_updating = false
 
   # Upload default files
   upload_index  = true
