@@ -1,4 +1,6 @@
-# static_site
+# terraform-aws-static-site 
+
+[![Terraform Checks](https://github.com/loganmarchione/terraform-aws-static-site/actions/workflows/terraform_checks.yml/badge.svg)](https://github.com/loganmarchione/terraform-aws-static-site/actions/workflows/terraform_checks.yml) [![Generate terraform docs](https://github.com/loganmarchione/terraform-aws-static-site/actions/workflows/terraform-docs.yml/badge.svg)](https://github.com/loganmarchione/terraform-aws-static-site/actions/workflows/terraform-docs.yml)
 
 Terraform module to create a static site in AWS using CloudFront, S3, ACM, Route53, etc...
 
