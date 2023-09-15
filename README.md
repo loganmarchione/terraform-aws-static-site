@@ -70,6 +70,9 @@ module "static_site_domain_com" {
   cloudfront_compress                     = true
   cloudfront_default_root_object          = "index.html"
   cloudfront_enabled                      = true
+  cloudfront_function_create              = true
+  cloudfront_function_filename            = "function.js"
+  cloudfront_function_name                = "ReWrites"
   cloudfront_http_version                 = "http2and3"
   cloudfront_ipv6                         = true
   cloudfront_price_class                  = "PriceClass_100"
