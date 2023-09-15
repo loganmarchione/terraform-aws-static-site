@@ -10,6 +10,15 @@ resource "aws_cloudfront_origin_access_control" "site" {
   signing_protocol                  = "sigv4"
 }
 
+resource "aws_cloudfront_function" "site" {
+  count   = var.cloudfront_function_create ? 1 : 0
+  name    = var.cloudfront_function_name
+  runtime = "cloudfront-js-1.0"
+  comment = var.cloudfront_function_name
+  publish = true
+  code    = file(var.cloudfront_function_filename)
+}
+
 resource "aws_cloudfront_distribution" "site" {
   aliases             = [data.aws_route53_zone.site.name, "www.${data.aws_route53_zone.site.name}"]
   comment             = local.s3_origin_id_site
@@ -39,6 +48,15 @@ resource "aws_cloudfront_distribution" "site" {
       query_string = false
       cookies {
         forward = "none"
+      }
+    }
+
+    # this idea was taken from here https://codeinthehole.com/tips/conditional-nested-blocks-in-terraform/
+    dynamic "function_association" {
+      for_each = var.cloudfront_function_create ? [1] : []
+      content {
+        event_type   = "viewer-request"
+        function_arn = aws_cloudfront_function.site[0].arn
       }
     }
 

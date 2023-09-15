@@ -46,6 +46,24 @@ variable "cloudfront_enabled" {
   type        = bool
 }
 
+variable "cloudfront_function_create" {
+  default     = false
+  description = "To create and associate a CloudFront function (this doesn't test the function, so make sure it works!)"
+  type        = bool
+}
+
+variable "cloudfront_function_filename" {
+  default     = "function.js"
+  description = "The filename of the CloudFront function"
+  type        = string
+}
+
+variable "cloudfront_function_name" {
+  default     = "MyFunction"
+  description = "The name of the CloudFront function"
+  type        = string
+}
+
 variable "cloudfront_http_version" {
   default     = "http2"
   description = "The CloudFront HTTP version"
