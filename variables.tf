@@ -54,7 +54,7 @@ variable "cloudfront_function_create" {
 
 variable "cloudfront_function_filename" {
   default     = "function.js"
-  description = "The filename of the CloudFront function"
+  description = "The filename of the CloudFront function (the default is [this](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/example-function-add-index.html) AWS-provided function that appends `index.html` to requests that don't include a file name or extension (e.g., domain.com/foo)"
   type        = string
 }
 
