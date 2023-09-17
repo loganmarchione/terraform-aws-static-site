@@ -17,6 +17,6 @@
     }
   ],
   "terraform": {
-    "ignorePaths": ["terraform/proxmox_test"]
+    "ignorePaths": ["versions.tf"]
   }
 }
