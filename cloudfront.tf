@@ -12,7 +12,7 @@ resource "aws_cloudfront_origin_access_control" "site" {
 
 resource "aws_cloudfront_function" "site" {
   count   = var.cloudfront_function_create ? 1 : 0
-  name    = local.s3_origin_id_site
+  name    = local.bucket_name
   runtime = "cloudfront-js-1.0"
   comment = var.cloudfront_function_name
   publish = true
@@ -21,7 +21,7 @@ resource "aws_cloudfront_function" "site" {
 
 resource "aws_cloudfront_distribution" "site" {
   aliases             = [data.aws_route53_zone.site.name, "www.${data.aws_route53_zone.site.name}"]
-  comment             = local.s3_origin_id_site
+  comment             = local.bucket_name
   default_root_object = var.cloudfront_default_root_object != null ? var.cloudfront_default_root_object : null
   enabled             = var.cloudfront_enabled
   http_version        = var.cloudfront_http_version
@@ -70,7 +70,7 @@ resource "aws_cloudfront_distribution" "site" {
   logging_config {
     include_cookies = false
     bucket          = aws_s3_bucket.logging.bucket_domain_name
-    prefix          = "cloudfront_${local.s3_origin_id_site}/"
+    prefix          = "cloudfront_${local.bucket_name}/"
   }
 
   origin {
@@ -170,7 +170,7 @@ resource "aws_s3_bucket_policy" "site" {
 # Allow bucket updating and cache invalidation
 resource "aws_iam_policy" "site_updating" {
   count       = var.iam_policy_site_updating ? 1 : 0
-  name        = "SiteUpdating-${local.s3_origin_id_site}"
+  name        = "SiteUpdating-${local.bucket_name}"
   path        = "/"
   description = "Optional IAM policy that provides permissions needed to update a static site (e.g., create CloudFront cache invalidation, update objects in S3, etc...)"
 
