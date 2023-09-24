@@ -170,7 +170,7 @@ resource "aws_s3_bucket_policy" "site" {
 # Allow bucket updating and cache invalidation
 resource "aws_iam_policy" "site_updating" {
   count       = var.iam_policy_site_updating ? 1 : 0
-  name        = "SiteUpdating"
+  name        = "SiteUpdating-${var.domain_name}"
   path        = "/"
   description = "Optional IAM policy that provides permissions needed to update a static site (e.g., create CloudFront cache invalidation, update objects in S3, etc...)"
 
