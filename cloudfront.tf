@@ -12,7 +12,7 @@ resource "aws_cloudfront_origin_access_control" "site" {
 
 resource "aws_cloudfront_function" "site" {
   count   = var.cloudfront_function_create ? 1 : 0
-  name    = var.cloudfront_function_name
+  name    = local.s3_origin_id_site
   runtime = "cloudfront-js-1.0"
   comment = var.cloudfront_function_name
   publish = true
