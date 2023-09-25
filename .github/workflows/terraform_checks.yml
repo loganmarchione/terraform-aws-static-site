@@ -35,7 +35,7 @@ jobs:
 #       run: terraform validate
 
       - name: Setup TFLint
-        uses: terraform-linters/setup-tflint@v3
+        uses: terraform-linters/setup-tflint@v4
         with:
           github_token: ${{ secrets.TOKEN }}
 
