@@ -78,7 +78,7 @@ jobs:
         uses: actions/checkout@v4 
 
       - name: Run KICS
-        uses: Checkmarx/kics-github-action@v2.1.7
+        uses: Checkmarx/kics-github-action@v2.1.8
         with:
            path: .
            config_path: .kics.yml
