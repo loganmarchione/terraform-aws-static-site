@@ -1,9 +1,0 @@
-[severity]
-  level = "high"
-[rules]
-    skip-rules = [
-        "AC_AWS_0026",
-        "AC_AWS_0032",
-        "AC_AWS_0207"
-    ]
-
