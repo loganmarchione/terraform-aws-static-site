@@ -16,10 +16,10 @@ jobs:
 
     steps:
       - name: Check out the codebase
-        uses: actions/checkout@v6
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
 
       - name: Setup Terraform
-        uses: hashicorp/setup-terraform@v4
+        uses: hashicorp/setup-terraform@5e8dbf3c6d9deaf4193ca7a8fb23f2ac83bb6c85 # v4
 
       - name: Terraform version
         run: terraform version
@@ -35,7 +35,7 @@ jobs:
 #       run: terraform validate
 
       - name: Setup TFLint
-        uses: terraform-linters/setup-tflint@v6
+        uses: terraform-linters/setup-tflint@b480b8fcdaa6f2c577f8e4fa799e89e756bb7c93 # v6
         with:
           github_token: ${{ secrets.TOKEN }}
 
